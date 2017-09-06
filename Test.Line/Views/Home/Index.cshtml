@@ -1,0 +1,85 @@
+﻿@model Test.Line.Bll.Models.LineModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <div class="panel" style="background:black">
+        <form id="frm">
+            <div class="row">
+                <div class="col-md-6">
+              
+                    <div class="form-group">
+                        <label for="StartPointX">First point X:</label>
+                        <input value="@Model.StartPoint.X" class="form-control" name="StartPointX" />
+                    </div>
+                    <div class="form-group">
+                        <label for="StartPointY">First point Y:</label>
+                        <input value="@Model.StartPoint.Y" class="form-control" name="StartPointY" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="EndPointX">Second point X:</label>
+                        <input value="@Model.EndPoint.X" class="form-control" name="EndPointX" />
+                        </div>
+                    <div class="form-group">
+                        <label for="EndPointY">Second point Y:</label>
+                        <input value="@Model.EndPoint.Y" class="form-control" name="EndPointY" />
+                        </div>
+                    </div>
+           
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><a href="#" class="btn btn-primary" onclick="lv.save()">Save segment</a></div>
+                <div class="col-md-6"><a href="#" class="btn btn-primary" onclick="lv.update()">Update segment</a></div>
+                
+            </div>
+        </form>
+        <div class="row">
+
+                <div class="col-md-4 col-md-offset-4" >
+                    <canvas height='320' width='580' id='canvas'></canvas>
+                    <script src="~/Scripts/lineView.js"></script>
+                    <script>
+                        var lv;
+                    $(document).ready(function () {
+                        lv = new lineView(
+                            {
+                                url: {
+                                    updateUrl: '@Url.Action("Update", "Home")'
+                                },
+                                color: "@Model.Color",
+                                element: {
+                                    form: $('#frm')
+                                },
+                                StartPoint: {
+                                    X: $("input[name = 'StartPointX']").val(),
+                                    Y: $("input[name = 'StartPointY']").val(),
+                                },
+                                EndPoint: {
+                                    X: $("input[name = 'EndPointX']").val(),
+                                    Y: $("input[name = 'EndPointY']").val(),
+                                }
+                            }
+                        );
+                        lv.initValidate();
+                        lv.draw({
+                            StartPoint :{
+                                X : @Model.StartPoint.X,
+                                Y : @Model.StartPoint.Y,
+                            },
+                            EndPoint :{
+                                X : @Model.EndPoint.X,
+                                Y : @Model.EndPoint.Y,
+                            },
+                            Color : "@Model.Color"
+                        });
+                    });
+
+                    </script>
+                </div>
+            </div>
+</div>
+</div>
